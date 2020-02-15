@@ -22,7 +22,7 @@ jobs:
       uses: RalfG/python-wheels-manylinux-build@v0.2-manylinux2014_x86_64
       with:
         python-versions: 'cp38-cp38'
-        build-requirements: 'scikit-build'
+        build-requirements: 'scikit-build ninja'
         #system-packages: 'make cmake bzip2-devel expat-devel file-devel glib2-devel libcurl-devel libxml2-devel python3-devel rpm-devel libmodulemd2 libmodulemd2-devel openssl-devel sqlite-devel xz-devel zchunk-devel zlib-devel'
     # - name: Publish wheels to PyPI
     #   env:
