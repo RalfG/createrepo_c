@@ -1,28 +1,31 @@
 name: Python package build and publish
 
-on:
-  release:
-    types: [published]
+on: [push]
+  # release:
+  #   types: [created]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v1
+    #- name: Set up Python
+    #  uses: actions/setup-python@v1
+    #  with:
+    #    python-version: 3.8
+    #- name: Install dependencies
+    #  run: |
+    #    python -m pip install --upgrade pip
+    #    pip install twine
+    - name: Build manylinux Python wheels
+      uses: RalfG/python-wheels-manylinux-build@v0.2-manylinux2014_x86_64
       with:
-        python-version: 3.8
-    - name: Install dependencies
-      run: |
-        python3 -m pip install --upgrade pip
-        pip3 install scikit-build twine
-    - name: Build Python sdist
-      run: python3 setup.py sdist
-    - name: Publish wheels to PyPI
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        twine upload dist/*.tar.gz
-
+        python-versions: 'cp38-cp38'
+        build-requirements: 'scikit-build'
+        #system-packages: 'make cmake bzip2-devel expat-devel file-devel glib2-devel libcurl-devel libxml2-devel python3-devel rpm-devel libmodulemd2 libmodulemd2-devel openssl-devel sqlite-devel xz-devel zchunk-devel zlib-devel'
+    # - name: Publish wheels to PyPI
+    #   env:
+    #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+    #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+    #   run: |
+    #     twine upload wheelhouse/*-manylinux*.whl
